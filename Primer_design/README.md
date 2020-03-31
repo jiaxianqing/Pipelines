@@ -17,6 +17,6 @@ BLAST <https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/>
             bedtools getfasta -name -bed - -fi IRGSP_1.fa -fo candidate.site.list.ex1k.fa
 
 Note: **candidate.site.list** file has four rows: chromosome,  start, end, name, an example:
->chr01   1000    2000    test1>
->chr03   3000    4000    test2>
+>chr01   1000    2000    test1<br>
+>chr03   3000    4000    test2<br>
 
