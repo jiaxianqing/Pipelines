@@ -1,7 +1,7 @@
->Pipeline for batch primer design
-
-## Backgroud
+## Pipeline for batch primer design
+If you need to design many primer pairs for different sites along the genome, this pipeline might be a good choice.
 ---
-            
-    awk 'BEGIN{OFS="\t"} {print $1,$2-1000,$2+1000,$3;}' /home/jxq/Data/rice/project/head_date2/07_genes/primer/candidate.site.list | \
-        ```getfasta -name -bed - -fo /home/jxq/Data/rice/project/head_date2/07_genes/primer/candidate.site.list.ex1k.fa```
+
+## 
+---
+
