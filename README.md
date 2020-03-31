@@ -1,2 +1,2 @@
 # Pipelines
-Pipelines used in genomic analysis
+Pipelines used in bioinfomatic analysis
