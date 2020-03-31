@@ -2,4 +2,4 @@
 Pipelines used in bioinfomatic analysis
 
 ## List
-Primer design
+1. Primer design
