@@ -9,5 +9,6 @@ blast <https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/>
 
 ## Steps
 
-**step1 Prepare sequences and input files**
+#### Step1. Prepare sequences and input files
 
+*
