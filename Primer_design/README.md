@@ -39,30 +39,29 @@ perl fasta2primer3.pl --task pick_pcr_primers --target_region 900,200 --size-reg
 
 ```
 perl /home/jxq/Data/scripts/my_scripts/primer3_to_blast.pl \
-    -i /home/jxq/Data/rice/project/head_date2/07_genes/primer/candidate.site.list.ex1k.fa.primer3.output \
-    -s /home/jxq/Data/rice/project/head_date2/07_genes/primer/candidate.site.list.ex1k.fa.primer3.output.stats \
-    -o /home/jxq/Data/rice/project/head_date2/07_genes/primer/candidate.site.list.ex1k.fa.primer3.output.fas
+    -i candidate.site.list.ex1k.fa.primer3.output \
+    -s candidate.site.list.ex1k.fa.primer3.output.stats \
+    -o candidate.site.list.ex1k.fa.primer3.output.fas
 ```
-
 
 
 ```
 mkdir -p /home/jxq/Data/rice/blast/library
-makeblastdb -dbtype nucl -in /home/jxq/Data/rice/ref/IRGSP-1.0_genome.fasta \
-    -out /home/jxq/Data/rice/blast/library/IRGSP.genome \
-    -logfile /home/jxq/Data/rice/blast/library/IRGSP.genome.log
+makeblastdb -dbtype nucl -in IRGSP-1.0_genome.fasta \
+    -out ./library/IRGSP.genome \
+    -logfile ./library/IRGSP.genome.log
 ```
 
 ```
-blastn -query /home/jxq/Data/rice/project/head_date2/07_genes/primer/candidate.site.list.ex1k.fa.primer3.output.fas \
-    -db /home/jxq/Data/rice/blast/library/IRGSP.genome \
+blastn -query candidate.site.list.ex1k.fa.primer3.output.fas \
+    -db ./library/IRGSP.genome \
     -task blastn -evalue 1 -num_threads 4 -max_target_seqs 10 -max_hsps 10 \
     -outfmt '7 qseqid qlen sseqid slen pident length mismatch gapopen qstart qend qcovs sstart send evalue bitscore' \
-    -out /home/jxq/Data/rice/project/head_date2/07_genes/primer/candidate.site.list.ex1k.fa.primer3.output.fas.IRGSP.genome.blastn
+    -out candidate.site.list.ex1k.fa.primer3.output.fas.IRGSP.genome.blastn
 ```
 
 ```
-perl /home/jxq/Data/scripts/my_scripts/blast_stats.pl \
-    -i /home/jxq/Data/arabidopsis/projects/seed_traits/04_primer/cds_last300.bed.fa.primer3.output.fas.TAIR10_genome.blastn \
-    -o /home/jxq/Data/arabidopsis/projects/seed_traits/04_primer/cds_last300.bed.fa.primer3.output.fas.TAIR10_genome.blastn.stats
+perl blast_stats.pl \
+    -i candidate.site.list.ex1k.fa.primer3.output.fas.IRGSP.genome.blastn \
+    -o candidate.site.list.ex1k.fa.primer3.output.fas.IRGSP.genome.blastn.stats
 ```
