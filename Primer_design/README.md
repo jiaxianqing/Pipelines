@@ -4,7 +4,7 @@ If you want to design many primer pairs for different sites along the genome, th
 
 ## Software dependencies
 Primer3 <https://github.com/primer3-org/primer3><br>
-BLAST <https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/>
+BLAST <https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST>
 
 ## Steps
 
@@ -18,4 +18,11 @@ BLAST <https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/>
 Note: **candidate.site.list** file has four rows: chromosome,  start, end, name, an example:
 >chr01   1000    2000    test1<br>
 >chr03   3000    4000    test2<br>
+
+* Transform FASTA file to input file for Primer3.
+```
+perl fasta2primer3.pl --task pick_pcr_primers --target_region 900,200 --size-region 400-700 --number 30 \
+    --input candidate.site.list.ex1k.fa \
+    > candidate.site.list.ex1k.fa.primer3.input
+```
 
