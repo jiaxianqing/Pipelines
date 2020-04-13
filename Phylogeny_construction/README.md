@@ -49,7 +49,6 @@ raxmlHPC-PTHREADS-SSE3 \
 ```
 
 ### Step 3. Tree editing 
-Final, we could edit or anotate phylogenetic tree by [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) or [iTOL](https://itol.embl.de/index.shtml) (recommended).
+Final, we could edit or anotate phylogenetic tree by [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) or [iTOL](https://itol.embl.de/index.shtml) (recommended). Here is a final version of my "Dof tree".
 
-![t](https://github.com/jiaxianqing/Pipelines/raw/master/Phylogeny_construction/Dof%20genes.jpg "Phylogenetic analysis of Dof gene family")
-
+<img src="https://github.com/jiaxianqing/Pipelines/raw/master/Phylogeny_construction/Dof%20genes.jpg" width = "500" height = "500" div align = "center" />
