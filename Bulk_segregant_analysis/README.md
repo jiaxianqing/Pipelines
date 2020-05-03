@@ -1,12 +1,13 @@
 ## NGS Bulk Segregant Analysis
 Bulk Segregant Analysis (BSA) is an elegant method to identify DNA markers tightly linked to the causal gene for a given phenotype. Following a cross between parental lines showing contrasting phenotypes, the resulting F2 progeny are scored for segregation of the phenotype. Two bulked DNA samples are generated from the progeny showing contrasting phenotypes, and DNA markers exhibiting differences between the two bulks are screened. Two typical literatures:
 >[1.Takagi, H. et al. QTL-seq: rapid mapping of quantitative trait loci in rice by whole genome resequencing of DNA from two bulked populations. The Plant Journal 74, 174–183 (2013).](https://onlinelibrary.wiley.com/doi/abs/10.1111/tpj.12105)</br>
+
 >[2.Wang, C. et al. Dissecting a heterotic gene through GradedPool-Seq mapping informs a rice-improvement strategy. Nat Commun 10, 1–12 (2019).](https://www.nature.com/articles/s41467-019-11017-y)</br>
 
 This pipeline is based on a R package [QTLseqr](https://acsess.onlinelibrary.wiley.com/doi/full/10.3835/plantgenome2018.01.0006).
 
 ---
-* Prepare input file for QTLseqr
+* **Prepare input file for QTLseqr**
 
 Phenotype data (groups of samples) and site (marker) information are needed. There are two strategies for site information, alelle frequency (AF) and read depth (DP, also called allele depth, AD). Here an example for read depth DP strategy:
 
@@ -33,7 +34,7 @@ Phenotype data (groups of samples) and site (marker) information are needed. The
   #           chr01   1266    G       A       186     162     82      181     263     85
 ```
 
-* Run QTLseqr analysis
+* **Run QTLseqr analysis**
 
 ```
   Rscript QTLseqr.analysis.dp.R \
@@ -43,7 +44,7 @@ Phenotype data (groups of samples) and site (marker) information are needed. The
       samples.ug.m1.dp # prefix for output files
 ```
 
-* Plot QTLseqr results</br>
+* **Plot QTLseqr results**</br>
 Two important indexes, ΔSNP-index and Gprime, are used to measure linked DNA markers. </br>
 
 ##### 1. ΔSNP-index
@@ -100,7 +101,7 @@ Two important indexes, ΔSNP-index and Gprime, are used to measure linked DNA ma
       samples.ug.m1.dp.QTLseqr.w100k.Gprime.stats.pdf
 ```
 
-* Find related genes
+* **Find related genes**
 ```
   sed 's/\"//g' samples.ug.m1.dp.QTLs.deltaSNP.csv | \
       awk -F "," 'BEGIN{OFS="\t"} !/CHROM/ {print $1,$3,$4}' | \
