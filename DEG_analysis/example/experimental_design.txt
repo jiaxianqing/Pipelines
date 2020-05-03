@@ -1,0 +1,45 @@
+Group1	
+A1	CK
+A2	CK
+C1	TG
+C2	TG
+Group2	
+A1	CK
+A2	CK
+B1	TG
+B2	TG
+Group3	
+A5	CK
+A6	CK
+C5	TG
+C6	TG
+Group4	
+A5	CK
+A6	CK
+B4	TG
+B6	TG
+Group5	
+A1	CK
+A2	CK
+A5	TG
+A6	TG
+Group6	
+B1	CK
+B2	CK
+B4	TG
+B6	TG
+Group7	
+C1	CK
+C2	CK
+C5	TG
+C6	TG
+Group8	
+C1	CK
+C2	CK
+B1	TG
+B2	TG
+Group9	
+C5	CK
+C6	CK
+B4	TG
+B6	TG
