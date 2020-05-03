@@ -47,7 +47,7 @@ Phenotype data (groups of samples) and site (marker) information are needed. The
 * **Plot QTLseqr results**</br>
 Two important indexes, ΔSNP-index and Gprime, are used to measure linked DNA markers. </br>
 
-##### 1. ΔSNP-index
+&emsp; 1. ΔSNP-index
 ```
   awk 'BEGIN{OFS="\t"} !/^CHROM/ {print $2,$3,$17}' samples.ug.m1.dp.QTLs.sites_info.csv | \
       perl smooth_window_count.pl -s - \
@@ -77,7 +77,7 @@ Two important indexes, ΔSNP-index and Gprime, are used to measure linked DNA ma
       samples.ug.m1.dp.QTLseqr.w100k.deltaSNP.stats.pdf
 ```
 
-##### 2. Gprime
+&emsp; 2. Gprime
 ```
   awk 'BEGIN{OFS="\t"} !/^CHROM/ {print $2,$3,$25}' samples.ug.m1.dp.QTLs.sites_info.csv | \
       perl /home/jxq/Data/scripts/my_scripts/QTL_analysis/smooth_window_count.pl -s - \
