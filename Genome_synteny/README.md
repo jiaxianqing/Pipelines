@@ -1,6 +1,7 @@
 ## Genome synteny analysis
 
-This pipeline is followed [MCscan (Python version)](https://github.com/tanghaibao/jcvi/wiki/MCscan-(Python-version))
+This pipeline is followed [MCscan (Python version)](https://github.com/tanghaibao/jcvi/wiki/MCscan-(Python-version)).
+
 ---
 
 ### Software dependencies  
