@@ -4,7 +4,7 @@ This pipeline is followed [MCscan (Python version)](https://github.com/tanghaiba
 ---
 
 ### Software dependencies  
-[LAST](http://last.cbrc.jp/), [jcvi](https://github.com/tanghaibao/jcvi/releases)
+[LAST](http://last.cbrc.jp/) and [jcvi](https://github.com/tanghaibao/jcvi/releases)
 
 ### Pipeline  
 * **Installation**  
@@ -118,3 +118,5 @@ python3 -m jcvi.graphics.synteny \
   e, 2, 3
 ```
 The resulting plot below:
+
+<img src="https://github.com/jiaxianqing/Pipelines/blob/master/Genome_synteny/genome_synteny.png"  div align = "center" width="75%" height="75%" />
