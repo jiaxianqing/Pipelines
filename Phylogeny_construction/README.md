@@ -73,7 +73,7 @@ Species phylogeny is usually constructed by genome-wide concatenated orthologous
       > ./fasta/orthofinder.diamond.process.log 2>&1
 # Single copy orthogroups are listed in "SingleCopyOrthogroups.txt".
 
-# Find low copy genes and extract their sequences
+# Find low copy genes and select one of them in each orthogroups each species.
 perl find_low_copy_genes.pl -- genecount Orthogroups.GeneCount.csv \
     --orthogroups Orthogroups.csv \
     --lowcopylist Orthogroups.GeneCount.low_copy.list \
@@ -85,7 +85,14 @@ There are two strategies for species phylogeny construction by single- or low- c
 2. `Coalescence`: multiple sequence alignment was carried out for each single copy gene among different species, and the gene tree corresponding to each single copy gene was constructed. Then, the gene trees corresponding to all single copy genes were combined to reconstruct the corresponding species tree. 
 Here, this pipeline is based on `Concatenation` way:
 ```
-  # Select single-copy or low-copy (1-2) gene orthologs and extract their gene protein sequences into ./Orthogroups/
+  # Extract sequences from each speice and put them into ./Orthogroups/
+  mkdir ./Orthogroups
+  perl find_gene_seq.pl \
+      --seqdir ./fasta --suffix fa \
+      --lowcopygroup Orthogroups.GeneCount.low_copy.gene_list.csv \
+      --outdir ./Orthogroups
+
+  # Multiple sequence alignment
   for file in `ls ./Orthogroups/*.fa`
   do
       echo ${file}
@@ -120,3 +127,7 @@ iqtree \
     -m MFP -nt AUTO -ntmax 16 -bb 1000 -alrt 1000 -asr \
     -pre low_copy_gene.fa.maerge.aln.iqtree
 ```
+
+An example for final visualization:  
+
+<img src="https://github.com/jiaxianqing/Pipelines/blob/master/Phylogeny_construction/species_tree.png" width = "25%" height = "25%" div align = "center" />
