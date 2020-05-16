@@ -132,7 +132,7 @@ Assume that you already have synteny list of genes, then if you want to show the
   cat Chr2.bed Chr6.bed \
       > Chr2_Chr6.bed
 
-  /home/jxq/bin/Python-3.6.1/bin/python3 -m jcvi.graphics.synteny \
+  python3 -m jcvi.graphics.synteny \
       Chr2_Chr6.blocks \
       Chr2_Chr6.bed \
       Chr2_Chr6.layout
