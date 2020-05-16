@@ -121,3 +121,21 @@ python3 -m jcvi.graphics.synteny \
 The resulting plot below:
 
 <img src="https://github.com/jiaxianqing/Pipelines/blob/master/Genome_synteny/genome_synteny.png"  div align = "center" width="75%" height="75%" />
+
+
+---
+
+* **Plot synteny image**  
+Assume that you already have synteny list of genes, then if you want to show their synteny relationship.
+
+```
+  cat Chr2.bed Chr6.bed \
+      > Chr2_Chr6.bed
+
+  /home/jxq/bin/Python-3.6.1/bin/python3 -m jcvi.graphics.synteny \
+      Chr2_Chr6.blocks \
+      Chr2_Chr6.bed \
+      Chr2_Chr6.layout
+```
+
+<img src="https://github.com/jiaxianqing/Pipelines/blob/master/Genome_synteny/Chr2_Chr6.png"  div align = "center" width="75%" height="75%" />
