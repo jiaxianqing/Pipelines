@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #
-#   find_low_copy_genes.pl -- find low-copy (1-2) gene orthologs
+#   find_gene_seq.pl -- find gene sequences from whole genome protein sequences
 #
 #   Author: jia xianqing
 #   Created: 2017-06-11
