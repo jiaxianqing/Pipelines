@@ -112,7 +112,7 @@ perl fasta2relaxedPhylip.pl -f low_copy_gene.fa.maerge.aln \
     -o low_copy_gene.fa.maerge.aln.phy
 raxmlHPC-PTHREADS-SSE3 \
     -s low_copy_gene.fa.maerge.aln.phy \
-    -m PROTGAMMAJTTX -f a -x 12345 -p 12345 -# 1000 -n tre -T 12 \
+    -m PROTGAMMAJTTX -f a -x 12345 -p 12345 -N 1000 -n tre -T 12 \
     -w ./
 
 # FastTree
