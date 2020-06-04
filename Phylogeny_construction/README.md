@@ -91,7 +91,8 @@ Here, this pipeline is based on `Concatenation` way:
       --seqdir ./fasta --suffix fa \
       --lowcopygroup Orthogroups.GeneCount.low_copy.gene_list.csv \
       --outdir ./Orthogroups
-
+  #If some sequences are lost, please try: dos2unix [workdir]
+  
   # Multiple sequence alignment
   for file in `ls ./Orthogroups/*.fa`
   do
