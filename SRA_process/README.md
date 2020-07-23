@@ -42,7 +42,7 @@ Then we can download template table for BioSample info.
 
 Here is an example for BioSample info:
 
-<img src="https://github.com/jiaxianqing/Pipelines/blob/master/SRA_process/sra_submission_info.png" width = "50%" height = "50%" div align = "center" />
+<img src="https://github.com/jiaxianqing/Pipelines/blob/master/SRA_process/Sanple_info.png" width = "50%" height = "50%" div align = "center" />
 
 Then we need to go back to submission list to download BioSample IDs.
 
