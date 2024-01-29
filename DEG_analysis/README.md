@@ -8,7 +8,7 @@ This pipeline includes:
 + [Fastq mapping](#fastq-mapping)   
 + [DEG analysis](#deg-analysis)   
     + [1. StringTie+Ballgown](#1-stringtie-and-ballgown)   
-    + [2. FeatureCount+DESeq2](#2-featurecount-and-deseq2) (Recommonded)   
+    + [2. FeatureCount+DESeq2](#2-featurecount-and-deseq2) (Recommended)   
 + [Up-regulated and down-regulated genes](#up-regulated-and-down-regulated-genes)   
 + [GO analysis](#go-analysis)   
 
