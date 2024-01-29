@@ -1,24 +1,23 @@
 ## Differentially expressed gene (DEG) analysis
 
-This pipeline for DEG analysis is followed [Pertea’s protocol](https://www.nature.com/articles/nprot.2016.095): HISAT2, StringTie and Ballgown.
+> Dr. Xianqing Jia (jiaxianqing@nwu.edu.cn)   
+> Latest update: 2024-01-29   
+> Lab website: https://jialab.life/   
+
+This pipeline includes:
++ [Fastq mapping](#fastq-mapping)   
++ [DEG analysis](#deg-analysis)   
+    + [1. StringTie+Ballgown](#1-stringtie-and-ballgown)   
+    + [2. FeatureCount+DESeq2](#2-featurecount-and-deseq2) (Recommonded)   
++ [Up-regulated and down-regulated genes](#up-regulated-and-down-regulated-genes)   
++ [GO analysis](#go-analysis)   
 
 ---
-
+## Fastq mapping
 ### Software dependencies:
-
-* [HISAT2](http://daehwankimlab.github.io/hisat2/download/), [gffread](https://github.com/gpertea/gffread), [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/), [Picard](https://broadinstitute.github.io/picard/), [samtools](http://samtools.sourceforge.net/), [StringTie](https://ccb.jhu.edu/software/stringtie/)
-* R packages:  
-    * ballgown
-    * RSkittleBrewer
-    * genefilter
-    * dplyr
-    * devtools
----
-
+* [HISAT2](http://daehwankimlab.github.io/hisat2/download/), [gffread](https://github.com/gpertea/gffread), [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/), [Picard](https://broadinstitute.github.io/picard/), [samtools](http://samtools.sourceforge.net/)
 ### Pipeline
-* **Genome alignment (mapping) by HISAT2**
-
-&emsp; 1. Prepare reference files for HISAT2
+#### 1) Prepare reference files for HISAT2
 ```
   mkdir -p /msu7
   gffread /MSU_osa1r7/all.mod.gff3 -T \
@@ -32,7 +31,7 @@ This pipeline for DEG analysis is followed [Pertea’s protocol](https://www.nat
       --exon /msu7/all.mod.exon\
       /msu7/msu7.genome_tran
 ```
-&emsp; 2. Mapping by HISAT2
+#### 2) Mapping by HISAT2
 
 ```
   # Check sequencing quality 
@@ -74,7 +73,26 @@ This pipeline for DEG analysis is followed [Pertea’s protocol](https://www.nat
           samtools index /RNAseq/01_assembly/${sample}.msu7.hisat2.sort.bam
       '
 ```
-* Estimate abundance for each sample by StringTie
+---
+## DEG analysis
+Two popular DEG analysis pipelines:
++ [1. StringTie+Ballgown](#1-stringtie-and-ballgown)   
++ [2. FeatureCount+DESeq2](#2-featurecount-and-deseq2) (Recommonded)   
+
+## 1. StringTie and Ballgown
+This pipeline for DEG analysis is followed [Pertea’s protocol](https://www.nature.com/articles/nprot.2016.095): HISAT2, StringTie and Ballgown.
+### Software dependencies:
+* [StringTie](https://ccb.jhu.edu/software/stringtie/)
+* R packages:  
+    * ballgown
+    * RSkittleBrewer
+    * genefilter
+    * dplyr
+    * devtools
+
+### Pipeline
+
+#### 1) Estimate abundance for each sample by StringTie
 
 ```
   # Count abundance and create table counts
@@ -92,19 +110,30 @@ This pipeline for DEG analysis is followed [Pertea’s protocol](https://www.nat
               -G /MSU_osa1r7/all.mod.gtf \
               -o /RNAseq/04_count/${sample}/${sample}.msu7.hisat2.sort.trans.gtf \
               /RNAseq/01_assembly/${sample}.msu7.hisat2.sort.bam
-      '
-  # Extract FPKM, TPM and coverage for each gene
-  find /RNA_seq/04_count/  -name "*.sort.trans.gtf" | \
-      xargs -n 1 -P 6 -I PREFIX \
-      sh -c '
-          sample=`basename PREFIX | cut -d "." -f 1`
-          echo "[`date`]: Start processing ${sample} ... "
-          perl count2table.pl \
-              -i PREFIX \
-              > PREFIX.tab
-      '
+        '
+    # Extract FPKM, TPM and coverage for each gene
+    find /RNA_seq/04_count/  -name "*.sort.trans.gtf" | \
+        xargs -n 1 -P 6 -I PREFIX \
+        sh -c '
+            sample=`basename PREFIX | cut -d "." -f 1`
+            echo "[`date`]: Start processing ${sample} ... "
+            perl count2table.pl \
+                -i PREFIX \
+                > PREFIX.tab
+        '
+    # Merge TPM values of each transcripts
+    ls /03_tpm/*/*.msu7.hisat2.sort.trans.gtf.tpm.tab \
+        > /03_tpm/P_treat_all.msu7.hisat2.sort.trans.gtf.tpm.tab.list
+    perl /home/jxq/Data/scripts/my_scripts/DEG_analysis/merge_multi_samp.pl \
+        -i /03_tpm/P_treat_all.msu7.hisat2.sort.trans.gtf.tpm.tab.list \
+        > /03_tpm/P_treat_all.msu7.hisat2.sort.trans.gtf.tpm.tab.sum
+    # Merge TPM values of each genes
+    perl /home/jxq/Data/scripts/my_scripts/DEG_analysis/merge_multi_trans.pl\
+        -i /03_tpm/P_treat_all.msu7.hisat2.sort.trans.gtf.tpm.tab.sum \
+        > /03_tpm/P_treat_all.msu7.hisat2.sort.trans.gtf.tpm.tab.sum.merge
+
 ```
-* Identify DEGs by ballgown  
+#### 2) Identify DEGs by ballgown  
 ```
    ## assign experimental design and divide into different groups
    perl experimental_design.pl \
@@ -132,7 +161,55 @@ This pipeline for DEG analysis is followed [Pertea’s protocol](https://www.nat
            /RNA_seq/05_deg/${group}/${group}.genes.txt
    done
 ```
-* Up-regulated and down-regulated genes  
+
+## 2. FeatureCounts and DESeq2
+This pipeline for DEG analysis is based on: HISAT2, FeatureCounts (in Subread) and DESeq2.
+### Software dependencies:
+* [Subread](https://subread.sourceforge.net/)
+* R packages:  
+    * DESeq2 ```BiocManager::install("DESeq2")```
+
+### Pipeline
+
+#### 1) Count abundance by featureCounts
+```
+    mkdir -p /02_count
+    featureCounts -T 8 -p -g gene_id \
+        -a /MSU_osa1r7/all.mod.gtf \
+        -o /02_count/P_treat_all.msu7.hisat2.sort.featureCounts.txt \
+        /01_assembly/*.msu7.hisat2.sort.bam \
+        > /02_count/P_treat_all.msu7.hisat2.sort.featureCounts.txt.log 2>&1
+
+    grep -v "^#" /02_count/P_treat_all.msu7.hisat2.sort.featureCounts.txt | cut -f 1,7-102 | \
+        sed 's/\/home\/jxq\/Data\/tomato\/P_treat\/01_assembly\///g' | sed 's/.msu7.hisat2.sort.bam//g' | sed 's/.msu7.0//g' \
+        > /02_count/P_treat_all.msu7.hisat2.sort.featureCounts.flt.txt
+```
+
+#### 2) PCA and DEG calling by DESeq2
+
+```
+    mkdir -p /05_deg
+    Rscript /DEG_analysis/PCA_plot.R \
+        /05_deg/ \
+        /05_deg/P_treat_all.msu7.hisat2.sort.featureCounts.flt.root.txt \
+        HD.R,HL.R,HP.R,HZ.R,LD.R,LL.R,LP.R,LZ.R \
+        3 \
+        14,15 \
+        /05_deg/P_treat_all.msu7.hisat2.sort.featureCounts.flt.root.PCA.pdf
+
+```
+
+```
+    Rscript /DEG_analysis/ \
+        /05_deg/ \
+        ptc.cr5_5.hisat2.sort.featureCounts.flt.txt \
+        A1,A2,A5,A6 \
+        2 \
+        ptc.cr5_5.hisat2.sort.featureCounts.flt.DEseq2.xls
+```
+---
+
+## Up-regulated and down-regulated genes
 ```
    for group in `ls /RNA_seq/05_deg`
    do
@@ -174,8 +251,10 @@ This pipeline for DEG analysis is followed [Pertea’s protocol](https://www.nat
        done
    done
 ```
-* Gene ontology (GO) analysis  
-[agriGO](http://systemsbiology.cau.edu.cn/agriGOv2/) is a decent tool for GO analysis. It is online and fast. Here is a Rscripts for ploting agriGO results:
+
+
+## GO analysis  
+[AgriGO](http://systemsbiology.cau.edu.cn/agriGOv2/) is a decent tool for gene ontology (GO) analysis. It is online and fast. Here is a Rscripts for ploting AgriGO results:
 ```
    library(ggplot2)
    library(ggthemes)
@@ -201,6 +280,10 @@ This pipeline for DEG analysis is followed [Pertea’s protocol](https://www.nat
    # GO:0008610	P	lipid biosynthetic process	5	108	180	24075	4.80E-05	0.0035	Up_regulation
 ```
 
-*An example for RNA-seq DEG analysis:  
->[Jia, X. et al. Pleiotropic changes revealed by in situ recovery of the semi-dwarf gene sd1 in rice. Journal of Plant Physiology 248, 153141 (2020).](http://www.sciencedirect.com/science/article/pii/S0176161720300298)
 
+### Related publications
+More details could also be found in our publications:
+
+1. Zhang, Y., Wang, L., Guo, Z., Xu, L., Zhao, H., Zhao, P., Ma, C., Yi, K. and Jia, X. (2022) [Revealing the underlying molecular basis of phosphorus recycling in the green manure crop Astragalus sinicus](https://www.sciencedirect.com/science/article/pii/S0959652622005625). *Journal of Cleaner Production*, 341, 130924.
+2. Wang, X., Wang, B., Song, Z., Zhao, L., Ruan, W., Gao, Y., Jia, X. and Yi, K. (2022) [A spatial–temporal understanding of gene regulatory networks and NtARF-mediated regulation of potassium accumulation in tobacco](https://link.springer.com/article/10.1007/s00425-021-03790-2). *Planta*, 255, 1–15. 
+3. Jia, X., Yu, L., Tang, M., Tian, D., Yang, S., Zhang, X., & Traw, M. B. (2020). [Pleiotropic changes revealed by in situ recovery of the semi-dwarf gene sd1 in rice](http://www.sciencedirect.com/science/article/pii/S0176161720300298). *Journal of Plant Physiology*, 248, 153141.
