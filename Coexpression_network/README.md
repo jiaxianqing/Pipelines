@@ -6,7 +6,7 @@
 
 Two popular co-expression network analysis pipelines are included:
 + [1. GENIE3](#1-genie3)   
-+ [2. ARACNe-AP](#2-aracne-ap) (Recommonded)   
++ [2. ARACNe-AP](#2-aracne-ap) (Recommended)   
 
 ---
 ## 1. GENIE3
