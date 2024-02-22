@@ -181,7 +181,7 @@ This pipeline for DEG analysis is based on: HISAT2, FeatureCounts (in Subread) a
         > /02_count/P_treat_all.msu7.hisat2.sort.featureCounts.txt.log 2>&1
 
     grep -v "^#" /02_count/P_treat_all.msu7.hisat2.sort.featureCounts.txt | cut -f 1,7-102 | \
-        sed 's/\/home\/jxq\/Data\/tomato\/P_treat\/01_assembly\///g' | sed 's/.msu7.hisat2.sort.bam//g' | sed 's/.msu7.0//g' \
+        sed 's/\/01_assembly\///g' | sed 's/.msu7.hisat2.sort.bam//g' | sed 's/.msu7.0//g' \
         > /02_count/P_treat_all.msu7.hisat2.sort.featureCounts.flt.txt
 ```
 
